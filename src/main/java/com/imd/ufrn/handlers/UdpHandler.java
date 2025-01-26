@@ -29,7 +29,13 @@ public class UdpHandler implements Runnable {
         String body = tokens[2];
 
         UdpRequestProcessor requestProcessor = new UdpRequestProcessor(operation, path, body);
-        String response = requestProcessor.process();
+        String response = null;
+
+        try {
+            response = requestProcessor.process();
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
 
         packet = new DatagramPacket(response.getBytes(), response.getBytes().length, packet.getAddress(), packet.getPort());
 

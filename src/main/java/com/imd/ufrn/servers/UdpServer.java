@@ -5,9 +5,11 @@ import com.imd.ufrn.handlers.UdpHandler;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.logging.Logger;
 
 public class UdpServer extends Server{
 
+    private Logger logger = Logger.getLogger(UdpServer.class.getName());
 
     public UdpServer() {
     }
@@ -18,7 +20,11 @@ public class UdpServer extends Server{
 
     public void start() {
 
+        logger.info("\u001B[34mStarting UDP Server\u001B[0m");
+
         try(DatagramSocket socket = new DatagramSocket(port)) {
+            logger.info("\u001B[34mUDP Server started\u001B[0m");
+
             while (true) {
 
                 byte[] buf = new byte[1024];
