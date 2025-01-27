@@ -1,13 +1,15 @@
 package com.imd.ufrn.handlers;
 
-import com.imd.ufrn.requestProcessors.UdpRequestProcessor;
+import com.imd.ufrn.requestProcessors.RequestProcessor;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.util.logging.Logger;
 
 public class UdpHandler implements Runnable {
 
+    private Logger logger = Logger.getLogger(UdpHandler.class.getName());
     private DatagramSocket socket;
     private DatagramPacket packet;
 
@@ -22,25 +24,25 @@ public class UdpHandler implements Runnable {
     @Override
     public void run() {
 
-        String[] tokens = tokenize(packet);
-
-        String operation = tokens[0];
-        String path = tokens[1];
-        String body = tokens[2];
-
-        UdpRequestProcessor requestProcessor = new UdpRequestProcessor(operation, path, body);
-        String response = null;
-
+        logger.info("\u001B[34mDispatching request\u001B[0m");
         try {
-            response = requestProcessor.process();
+
+            String[] tokens = tokenize(packet);
+
+            String operation = tokens[0];
+            String path = tokens[1];
+            String body = tokens[2];
+
+            RequestProcessor requestProcessor = new RequestProcessor(operation, path, body);
+            String response = requestProcessor.process();
+
+            packet = new DatagramPacket(response.getBytes(), response.getBytes().length, packet.getAddress(), packet.getPort());
+
+            socket.send(packet);
+            logger.info("\u001B[32mResponse sent to the client\u001B[0m");
+
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
-        }
-
-        packet = new DatagramPacket(response.getBytes(), response.getBytes().length, packet.getAddress(), packet.getPort());
-
-        try {
-            socket.send(packet);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class UdpRequestProcessor {
+public class RequestProcessor {
 
     private String operation;
     private String path;
@@ -15,10 +15,10 @@ public class UdpRequestProcessor {
     private final TicketService ticketService = new TicketService();
     private final Logger logger = Logger.getLogger(this.getClass().getName());
 
-    public UdpRequestProcessor() {
+    public RequestProcessor() {
     }
 
-    public UdpRequestProcessor(String operation, String path, String body) {
+    public RequestProcessor(String operation, String path, String body) {
         this.operation = operation;
         this.path = path;
         this.body = body;
