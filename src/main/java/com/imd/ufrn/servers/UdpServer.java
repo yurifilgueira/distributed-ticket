@@ -1,11 +1,15 @@
 package com.imd.ufrn.servers;
 
+import com.imd.ufrn.clients.Client;
+import com.imd.ufrn.clients.UdpClient;
 import com.imd.ufrn.handlers.UdpHandler;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.logging.Logger;
+
+import static java.lang.Thread.sleep;
 
 public class UdpServer extends Server{
 
@@ -19,6 +23,10 @@ public class UdpServer extends Server{
     }
 
     public void start() {
+
+        logger.info("Registering...");
+
+        register();
 
         logger.info("\u001B[34mStarting UDP Server\u001B[0m");
 
@@ -36,6 +44,33 @@ public class UdpServer extends Server{
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void register() {
+        boolean isRegistered = false;
+
+        while (!isRegistered) {
+            Client client = new UdpClient();
+
+            String serverPort = String.valueOf(this.port);
+
+            String request = "/register;" + serverPort;
+
+            String response = client.sendRequest(request, 8080);
+
+            System.out.println(response);
+
+            if (response.equals("REGISTERED")) {
+                isRegistered = true;
+            }
+            else {
+                try {
+                    sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 

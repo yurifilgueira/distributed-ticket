@@ -49,6 +49,10 @@ public class UdpHandler implements Runnable {
     }
 
     private String[] tokenize(DatagramPacket packet) {
+
+        String response = new String(packet.getData(), 0, packet.getLength());
+        System.out.println(response);
+
         String[] tokens = new String(packet.getData(), 0, packet.getLength()).split(";");
 
         String operation = tokens[0];

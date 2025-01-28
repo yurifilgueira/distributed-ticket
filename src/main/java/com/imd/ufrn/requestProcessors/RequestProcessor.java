@@ -93,8 +93,10 @@ public class RequestProcessor {
 
             logger.info("\u001B[34mGET(FIND ALL) request processed\u001B[0m");
             return tickets.toString();
-        }
-        else {
+        } else if (path.equals("/tickets/health")) {
+            logger.info("\u001B[34mGET(HEART BEAT) request processed\u001B[0m");
+            return "BEAT";
+        } else {
             String[] tokens = Arrays.stream(path.split("/"))
                     .filter(token -> !token.isEmpty())
                     .toArray(String[]::new);

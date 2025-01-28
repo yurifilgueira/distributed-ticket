@@ -4,7 +4,6 @@ import com.imd.ufrn.model.entities.Ticket;
 import com.imd.ufrn.repositories.TicketPostgresRepository;
 import com.imd.ufrn.repositories.TicketRepository;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class TicketService {
