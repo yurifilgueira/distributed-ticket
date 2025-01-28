@@ -7,11 +7,13 @@ import com.imd.ufrn.handlers.UdpHandler;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.logging.Logger;
 
 import static java.lang.Thread.sleep;
 
-public class UdpServer extends Server{
+public class UdpServer extends Server {
 
     private Logger logger = Logger.getLogger(UdpServer.class.getName());
 
@@ -25,12 +27,11 @@ public class UdpServer extends Server{
     public void start() {
 
         logger.info("Registering...");
-
         register();
 
         logger.info("\u001B[34mStarting UDP Server\u001B[0m");
 
-        try(DatagramSocket socket = new DatagramSocket(port)) {
+        try (DatagramSocket socket = new DatagramSocket(port)) {
             logger.info("\u001B[34mUDP Server started\u001B[0m");
 
             while (true) {
@@ -57,14 +58,17 @@ public class UdpServer extends Server{
 
             String request = "/register;" + serverPort;
 
-            String response = client.sendRequest(request, 8080);
+            String response = null;
 
-            System.out.println(response);
+            try {
+                response = client.sendRequest(request, InetAddress.getByName("localhost"),8080);
+            } catch (UnknownHostException e) {
+                throw new RuntimeException(e);
+            }
 
             if (response.equals("REGISTERED")) {
                 isRegistered = true;
-            }
-            else {
+            } else {
                 try {
                     sleep(3000);
                 } catch (InterruptedException e) {
@@ -73,5 +77,4 @@ public class UdpServer extends Server{
             }
         }
     }
-
 }

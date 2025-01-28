@@ -7,16 +7,14 @@ import java.net.InetAddress;
 public class UdpClient implements Client {
 
     @Override
-    public String sendRequest(String request, int port) {
+    public String sendRequest(String request, InetAddress address, int port) {
         try (DatagramSocket socket = new DatagramSocket()) {
 
             socket.setSoTimeout(3000);
 
-            InetAddress localAddress = InetAddress.getByName("localhost");
-
             byte[] buf = request.getBytes();
 
-            DatagramPacket packet = new DatagramPacket(buf, buf.length, localAddress, port);
+            DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
             socket.send(packet);
 
 

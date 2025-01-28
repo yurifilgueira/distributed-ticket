@@ -4,6 +4,6 @@ import java.net.InetAddress;
 
 public interface Client {
 
-    String sendRequest(String request, int port);
+    String sendRequest(String request, InetAddress address,int port);
 
 }
