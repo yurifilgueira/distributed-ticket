@@ -33,7 +33,7 @@ public class TcpClient implements Client {
 
             return response;
         }catch (Exception e) {
-            return "500-ERROR";
+            return "500 - ERROR";
         }
         finally {
 

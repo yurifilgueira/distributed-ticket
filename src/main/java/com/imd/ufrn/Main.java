@@ -9,7 +9,7 @@ public class Main {
 
         int port = Integer.parseInt(args[0]);
 
-        Server server = new TcpServer(port);
+        Server server = new UdpServer(port);
 
         server.start();
     }

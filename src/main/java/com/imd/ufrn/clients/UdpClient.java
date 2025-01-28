@@ -28,7 +28,7 @@ public class UdpClient implements Client {
 
             return response;
         }catch (Exception e) {
-            return null;
+            return "500 - ERROR";
         }
     }
 
