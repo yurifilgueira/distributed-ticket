@@ -17,7 +17,7 @@ public class TcpClient implements Client {
 
             socket.setSoTimeout(3000);
         }catch (Exception e) {
-            throw new RuntimeException(e);
+            return "500 - ERROR";
         }
 
         try (

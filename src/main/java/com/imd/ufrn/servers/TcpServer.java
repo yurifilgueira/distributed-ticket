@@ -84,7 +84,7 @@ public class TcpServer extends Server {
 
             String serverPort = String.valueOf(this.port);
 
-            String request = "/register;" + serverPort;
+            String request = "/register;/tickets;" + serverPort;
 
             String response = null;
 

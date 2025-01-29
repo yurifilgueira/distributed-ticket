@@ -79,7 +79,7 @@ public class RequestProcessor {
 
         logger.info("\u001B[34mPUT request processed\u001B[0m");
 
-        if (entity != null) {
+        if (entity == null) {
             return "NOT FOUND";
         }
 
@@ -104,6 +104,10 @@ public class RequestProcessor {
             long id = Long.parseLong(tokens[1]);
 
             Ticket entity = ticketService.findById(id);
+
+            if (entity == null) {
+                return "NOT FOUND";
+            }
 
             logger.info("\u001B[34mGET(FIND BY ID) request processed\u001B[0m");
             return entity.toString();
